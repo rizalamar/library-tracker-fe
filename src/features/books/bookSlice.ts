@@ -14,16 +14,25 @@ const initialState: BookState = {
 	error: null,
 };
 
-export const fetchBooks = createAsyncThunk("books/fetchBooks", async (page: number = 0, { rejectWithValue }) => {
-	try {
-		const response = await axiosInstance.get(`/api/v1/books?page=${page}&size=12`);
-		return response.data.data as Book[];
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	} catch (error: any) {
-		const errorMessage = error.response?.data?.message || error.message || "Failed to fetch books";
-		return rejectWithValue(errorMessage);
+export const fetchBooks = createAsyncThunk(
+	"books/fetchBooks",
+	async ({ page = 0, genre }: { page?: number; genre?: string | null }, { rejectWithValue }) => {
+		try {
+			let url = `/api/v1/books?page=${page}&size=12`;
+
+			if (genre) {
+				url += `&genre=${encodeURIComponent(genre)}`;
+			}
+
+			const response = await axiosInstance.get(url);
+			return response.data.data as Book[];
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		} catch (error: any) {
+			const errorMessage = error.response?.data?.message || error.message || "Failed to fetch books";
+			return rejectWithValue(errorMessage);
+		}
 	}
-});
+);
 
 export const addBook = createAsyncThunk("books/addBook", async (bookData: Partial<Book>, { rejectWithValue }) => {
 	try {

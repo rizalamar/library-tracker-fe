@@ -8,6 +8,7 @@ import BookDetailModal from "../components/features/books/BookDetailModal";
 import { fetchMyBooks } from "../features/myBooks/myBookSlice";
 import Loader from "../components/common/Loader";
 import ErrorState from "../components/common/ErrorState";
+import { useSearchParams } from "react-router-dom";
 
 export default function Dashboard() {
 	const dispatch = useAppDispatch();
@@ -21,15 +22,17 @@ export default function Dashboard() {
 
 	const [page, setPage] = useState(0);
 	const [selectedBook, setSelectedBook] = useState<Book | null>(null);
+	const [searchParams] = useSearchParams();
 
 	const itemsPerPage = 12;
 	const paginatedItems = books.slice(page * itemsPerPage, (page + 1) * itemsPerPage);
 	const hasMore = (page + 1) * itemsPerPage < books.length;
+	const genre = searchParams.get("genre");
 
 	useEffect(() => {
-		dispatch(fetchBooks(page));
+		dispatch(fetchBooks({ page, genre }));
 		dispatch(fetchMyBooks());
-	}, [dispatch, page]);
+	}, [dispatch, page, genre]);
 
 	return (
 		<div className="flex flex-col min-h-screen px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -52,7 +55,7 @@ export default function Dashboard() {
 				{loading ? (
 					<Loader message={"Fetching your library..."} />
 				) : error ? (
-					<ErrorState message={error || ""} onRetry={() => dispatch(fetchBooks(page))} />
+					<ErrorState message={error || ""} onRetry={() => dispatch(fetchBooks({ page }))} />
 				) : (
 					<div className="grid grid-cols-2 gap-6 md:grid-cols-4 lg:grid-cols-6">
 						{paginatedItems.map((book) => {
