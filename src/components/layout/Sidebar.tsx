@@ -38,7 +38,7 @@ export default function Sidebar({ isAdmin }: SidebarProps) {
 						{genres.map((genre) => (
 							<NavLink
 								key={genre.name}
-								to={`/dashboard?genre=/${genre.name}`}
+								to={`/dashboard?genre=${genre.name}`}
 								className={({ isActive }) =>
 									`text-sm font-medium ${
 										isActive ? "text-blue-600" : "text-gray-600 hover:text-gray-900"
