@@ -1,14 +1,24 @@
 import { BookOpen, Home, UserRoundCog } from "lucide-react";
 import NavLinkItem from "./NavLinkItem";
 import { NavLink } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { useEffect } from "react";
+import { fetchGenres } from "../../features/books/genreSlice";
 
 interface SidebarProps {
 	isAdmin: boolean;
 }
 
-const genres = ["Fiction", "Novel", "Science Fiction", "Fantasy", "Mistery"];
-
 export default function Sidebar({ isAdmin }: SidebarProps) {
+	const dispatch = useAppDispatch();
+	const { items: genres } = useAppSelector((state) => state.genres);
+
+	useEffect(() => {
+		dispatch(fetchGenres());
+	}, [dispatch]);
+
+	console.log("🚀 ~ Sidebar ~ genres:", genres);
+
 	return (
 		<aside className="w-64 bg-white border-r border-gray-100 p-8 flex flex-col h-screen sticky top-0 overflow-y-auto">
 			<h1 className="text-2xl font-black tracking-tight text-blue-600 mb-10">HOMELIBRARY</h1>
@@ -27,15 +37,15 @@ export default function Sidebar({ isAdmin }: SidebarProps) {
 					<div className="flex flex-col gap-3">
 						{genres.map((genre) => (
 							<NavLink
-								key={genre}
-								to={`/genre/${genre.toLowerCase()}`}
+								key={genre.name}
+								to={`/dashboard?genre=/${genre.name}`}
 								className={({ isActive }) =>
 									`text-sm font-medium ${
 										isActive ? "text-blue-600" : "text-gray-600 hover:text-gray-900"
 									}`
 								}
 							>
-								{genre}
+								{genre.name} <span className="text-gray-400">({genre.count})</span>
 							</NavLink>
 						))}
 					</div>
