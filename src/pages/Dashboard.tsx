@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { fetchBooks } from "../features/books/bookSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import Pagination from "../components/ui/Pagination";
-import type { Book } from "../types/book";
+import type { BookResponse } from "../types/book";
 import BookDetailModal from "../components/features/books/BookDetailModal";
 import { fetchMyBooks } from "../features/myBooks/myBookSlice";
 import Loader from "../components/common/Loader";
@@ -21,7 +21,7 @@ export default function Dashboard() {
 	});
 
 	const [page, setPage] = useState(0);
-	const [selectedBook, setSelectedBook] = useState<Book | null>(null);
+	const [selectedBook, setSelectedBook] = useState<BookResponse | null>(null);
 	const [searchParams] = useSearchParams();
 
 	const itemsPerPage = 12;
