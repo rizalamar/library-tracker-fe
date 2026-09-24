@@ -79,6 +79,56 @@ export default function BookDetailModal({ book, onClose }: ModalProps) {
 						</div>
 					)}
 
+					{/* Deskripsi */}
+					{book.description && (
+						<div>
+							<span className="text-xs font-bold text-gray-400 uppercase">Description</span>
+							<p className="text-sm text-gray-600 mt-1">{book.description}</p>
+						</div>
+					)}
+
+					{/* Format Fisik */}
+					{book.physicalFormat && (
+						<div>
+							<span className="text-xs font-bold text-gray-400 uppercase">Format</span>
+							<p className="text-sm text-gray-600 mt-1">{book.physicalFormat}</p>
+						</div>
+					)}
+
+					{/* Bahasa */}
+					{book.languages && book.languages.length > 0 && (
+						<div>
+							<span className="text-xs font-bold text-gray-400 uppercase">Languages</span>
+							<div className="flex flex-wrap gap-1 mt-1">
+								{book.languages.map((lang) => (
+									<span
+										key={lang}
+										className="bg-purple-50 text-purple-700 px-2 py-0.5 rounded text-[10px] font-medium border border-purple-100"
+									>
+										{lang}
+									</span>
+								))}
+							</div>
+						</div>
+					)}
+
+					{/* Tempat Publikasi */}
+					{book.publishPlaces && book.publishPlaces.length > 0 && (
+						<div>
+							<span className="text-xs font-bold text-gray-400 uppercase">Publish Places</span>
+							<div className="flex flex-wrap gap-1 mt-1">
+								{book.publishPlaces.map((place) => (
+									<span
+										key={place}
+										className="bg-orange-50 text-orange-700 px-2 py-0.5 rounded text-[10px] font-medium border border-orange-100"
+									>
+										{place}
+									</span>
+								))}
+							</div>
+						</div>
+					)}
+
 					{book.subjectPlaces && book.subjectPlaces.length > 0 && (
 						<div>
 							<span className="text-xs font-bold text-gray-400 uppercase">Places</span>

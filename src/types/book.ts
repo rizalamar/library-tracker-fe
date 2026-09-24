@@ -17,6 +17,7 @@ export interface BookResponse {
 	number_of_pages: number | null;
 	physicalFormat: string | null;
 	languages: string[];
+	publishPlaces: string[];
 	subjects: string[];
 	subjectsPeople: string[];
 	subjectPlaces: string[];
