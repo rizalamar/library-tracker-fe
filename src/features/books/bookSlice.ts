@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { Book } from "../../types/book";
+import type { BookResponse } from "../../types/book";
 import { axiosInstance } from "../../config/axiosInstance";
 
 interface BookState {
-	items: Book[];
+	items: BookResponse[];
 	loading: boolean;
 	error: string | null;
 }
@@ -25,7 +25,7 @@ export const fetchBooks = createAsyncThunk(
 			}
 
 			const response = await axiosInstance.get(url);
-			return response.data.data as Book[];
+			return response.data.data as BookResponse[];
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (error: any) {
 			const errorMessage = error.response?.data?.message || error.message || "Failed to fetch books";
@@ -34,22 +34,25 @@ export const fetchBooks = createAsyncThunk(
 	}
 );
 
-export const addBook = createAsyncThunk("books/addBook", async (bookData: Partial<Book>, { rejectWithValue }) => {
-	try {
-		const response = await axiosInstance.post("/api/v1/books", bookData);
-		return response.data.data as Book;
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	} catch (error: any) {
-		return rejectWithValue(error.response?.data?.message || "Failed to add book");
+export const addBook = createAsyncThunk(
+	"books/addBook",
+	async (bookData: Partial<BookResponse>, { rejectWithValue }) => {
+		try {
+			const response = await axiosInstance.post("/api/v1/books", bookData);
+			return response.data.data as BookResponse;
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		} catch (error: any) {
+			return rejectWithValue(error.response?.data?.message || "Failed to add book");
+		}
 	}
-});
+);
 
 export const updateBook = createAsyncThunk(
 	"books/updateBook",
-	async ({ id, data }: { id: string; data: Partial<Book> }, { rejectWithValue }) => {
+	async ({ id, data }: { id: string; data: Partial<BookResponse> }, { rejectWithValue }) => {
 		try {
 			const response = await axiosInstance.put(`/api/v1/books/${id}`, data);
-			return response.data.data as Book;
+			return response.data.data as BookResponse;
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (error: any) {
 			return rejectWithValue(error.response?.data?.message || "Failed to update book");
@@ -70,7 +73,7 @@ export const deleteBook = createAsyncThunk("books/deleteBook", async (id: string
 export const fetchExternalBook = createAsyncThunk("books/fetchExternal", async (isbn: string, { rejectWithValue }) => {
 	try {
 		const response = await axiosInstance(`/api/v1/external-books/${isbn}`);
-		return response.data.data as Book;
+		return response.data.data as BookResponse;
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
 	} catch (error: any) {
 		return rejectWithValue("No book found in OpenLibrary");
@@ -87,7 +90,7 @@ const bookSlice = createSlice({
 				state.loading = true;
 				state.error = null;
 			})
-			.addCase(fetchBooks.fulfilled, (state, action: PayloadAction<Book[]>) => {
+			.addCase(fetchBooks.fulfilled, (state, action: PayloadAction<BookResponse[]>) => {
 				state.loading = false;
 				state.items = action.payload;
 			})

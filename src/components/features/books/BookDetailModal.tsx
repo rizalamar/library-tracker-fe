@@ -1,9 +1,9 @@
 import { X } from "lucide-react";
-import type { Book } from "../../../types/book";
+import type { BookResponse } from "../../../types/book";
 import Button from "../../ui/Button";
 
 interface ModalProps {
-	book: Book;
+	book: BookResponse;
 	onClose: () => void;
 }
 
@@ -30,7 +30,7 @@ export default function BookDetailModal({ book, onClose }: ModalProps) {
 
 					<div className="flex-1">
 						<h2 className="mb-4 text-2xl font-bold leading-tight text-gray-900">{book.title}</h2>
-						{book.subtitle && <p className="mt-1 text-sm italic text-gray-500">{book.subtitle}</p>}
+
 						<p className="mt-2 text-sm font-semibold text-blue-600">
 							{book.authors.map((a) => a.name).join(", ")}
 						</p>
@@ -44,7 +44,7 @@ export default function BookDetailModal({ book, onClose }: ModalProps) {
 					</div>
 					<div className="">
 						<p className="text-[10px] uppercase text-gray-400 font-bold">Publisher</p>
-						<p className="text-sm font-medium">{book.publishers?.map((p) => p.name).join(", ") || "N/A"}</p>
+						<p className="text-sm font-medium">{book.publishers?.map((p) => p).join(", ") || "N/A"}</p>
 					</div>
 					<div className="">
 						<p className="text-[10px] uppercase text-gray-400 font-bold">Published</p>
@@ -124,15 +124,6 @@ export default function BookDetailModal({ book, onClose }: ModalProps) {
 									</span>
 								))}
 							</div>
-						</div>
-					)}
-
-					{book.excerpts && book.excerpts.length > 0 && (
-						<div className="p-3 border border-gray-100 rounded-lg bg-gray-50">
-							<span className="text-xs font-bold text-gray-400 uppercase">Excerpt</span>
-							<p className="mt-1 text-xs italic leading-relaxed text-gray-600">
-								"{book.excerpts[0].text}"
-							</p>
 						</div>
 					)}
 				</div>
