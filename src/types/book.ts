@@ -3,30 +3,35 @@ export interface Author {
 	name: string;
 }
 
-interface Publisher {
+interface PublisherRequest {
 	name: string;
 }
 
-export interface Excerpt {
-	text: string;
-	comment?: string;
+export interface BookResponse {
+	id: string | null;
+	title: string;
+	isbn: string;
+	description: string | null;
+	authors: Author[];
+	publishers: string[];
+	number_of_pages: number | null;
+	physicalFormat: string | null;
+	languages: string[];
+	subjects: string[];
+	subjectsPeople: string[];
+	subjectPlaces: string[];
+	subjectTimes: string[];
+	publishedDate: string | null;
+	imageUrl: string | null;
+	available: boolean;
+	created: string | null;
 }
 
-export interface Book {
-	id: string;
+export interface BookRequest {
 	title: string;
 	authors: Author[];
 	isbn: string;
-	subtitle: string | null;
-	publishers: Publisher[];
-	number_of_pages: number;
-	subjects: string[];
-	subjectPlaces: string[];
-	subjectsPeople: string[];
-	subjectTimes: string[];
-	excerpts: Excerpt[];
+	publishers: PublisherRequest[];
 	publishedDate: string;
 	imageUrl: string | null;
-	available: boolean;
-	createdAt: string;
 }
