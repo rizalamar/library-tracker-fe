@@ -1,4 +1,4 @@
-import type { Book } from "../../../types/book"; // Import Author dan Book type
+import type { BookResponse } from "../../../types/book"; // Import Author dan Book type
 import type { MouseEvent } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { addBookToMyShelf } from "../../../features/myBooks/myBookSlice";
@@ -6,7 +6,7 @@ import { getPrimaryAuthorName } from "../../../utils/helper";
 import { BookmarkCheck, BookmarkPlus } from "lucide-react";
 import { toast } from "sonner";
 interface BookCardProps {
-	bookDetails: Book;
+	bookDetails: BookResponse;
 	onView: () => void;
 }
 
@@ -18,7 +18,7 @@ export function BookCard({ bookDetails, onView }: BookCardProps) {
 	const handleAddToShelf = async (e: MouseEvent) => {
 		try {
 			e.stopPropagation();
-			await dispatch(addBookToMyShelf(bookDetails.id)).unwrap();
+			await dispatch(addBookToMyShelf(bookDetails.id || "")).unwrap();
 			toast.success(`${bookDetails.title} has been added to your shelf!`);
 			// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
 		} catch (error: any) {

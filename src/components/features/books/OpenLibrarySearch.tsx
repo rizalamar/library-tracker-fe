@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import type { Book } from "../../../types/book";
+import type { BookResponse } from "../../../types/book";
 import { addBook, fetchExternalBook } from "../../../features/books/bookSlice";
 import { getPrimaryAuthorName } from "../../../utils/helper";
 import Button from "../../ui/Button";
@@ -10,7 +10,7 @@ export default function OpenLibrarySearch() {
 	const dispatch = useAppDispatch();
 	const { items } = useAppSelector((state) => state.books);
 	const [isbn, setIsbn] = useState<string>("");
-	const [preview, setPreview] = useState<Book | null>(null);
+	const [preview, setPreview] = useState<BookResponse | null>(null);
 	const [loading, setLoading] = useState<boolean>(false);
 
 	const isAlreadyAdded = items.some((book) => book.isbn === preview?.isbn);
