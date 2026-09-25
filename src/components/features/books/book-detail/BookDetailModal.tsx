@@ -1,6 +1,10 @@
 import { X } from "lucide-react";
 import type { BookResponse } from "../../../../types/book";
 import Button from "../../../ui/Button";
+import BookDetailHeader from "./BookDetailHeader";
+import BookDetailMetaData from "./BookDetailMetaData";
+import BookDetailDescription from "./BookDetailDescription";
+import BookDetailTags from "./BookDetailTags";
 
 interface ModalProps {
 	book: BookResponse;
@@ -8,7 +12,10 @@ interface ModalProps {
 }
 
 export default function BookDetailModal({ book, onClose }: ModalProps) {
-	console.log("🚀 ~ BookDetailModal ~ book:", book.authors);
+	console.log("🚀 ~ BookDetailModal ~ book:", book.description);
+
+	if (!book) return null;
+
 	return (
 		<div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
 			<div className="relative w-full max-w-lg p-8 bg-white shadow-xl rounded-2xl">
@@ -21,6 +28,52 @@ export default function BookDetailModal({ book, onClose }: ModalProps) {
 					<X className="w-4 h-4" />
 				</Button>
 
+				<BookDetailHeader book={book} />
+
+				<BookDetailMetaData book={book} />
+
+				<div className="pr-2 mt-4 mb-4 space-y-3 overflow-y-auto max-h-60">
+					<BookDetailDescription description={book.description} />
+
+					{/* Subjects */}
+					<BookDetailTags
+						label={"Subjects"}
+						tags={book.subjects}
+						bgColorClass="bg-blue-50 text-blue-700 border-blue-100"
+					/>
+
+					{/* Languages */}
+					<BookDetailTags
+						label={"Languages"}
+						tags={book.languages}
+						bgColorClass="bg-purple-50 text-purple-700 border-purple-100"
+					/>
+
+					{/* Publish Places */}
+					{book.publishPlaces && (
+						<BookDetailTags
+							label={"Publish Places"}
+							tags={book.publishPlaces}
+							bgColorClass="bg-orange-50 text-orange-700 border-orange-100"
+						/>
+					)}
+
+					{/* Subject People */}
+					<BookDetailTags
+						label={"Subject People"}
+						tags={book.subjectsPeople}
+						bgColorClass="bg-green-50 text-green-700 border-green-100"
+					/>
+
+					{/* Subject Times */}
+					<BookDetailTags
+						label={"Subject Times"}
+						tags={book.subjectTimes}
+						bgColorClass="bg-red-50 text-red-700 border-red-100"
+					/>
+				</div>
+
+				{/* 
 				<div className="flex items-start gap-6">
 					<img
 						src={book.imageUrl ?? "undefined"}
@@ -79,7 +132,6 @@ export default function BookDetailModal({ book, onClose }: ModalProps) {
 						</div>
 					)}
 
-					{/* Deskripsi */}
 					{book.description && (
 						<div>
 							<span className="text-xs font-bold text-gray-400 uppercase">Description</span>
@@ -87,7 +139,6 @@ export default function BookDetailModal({ book, onClose }: ModalProps) {
 						</div>
 					)}
 
-					{/* Format Fisik */}
 					{book.physicalFormat && (
 						<div>
 							<span className="text-xs font-bold text-gray-400 uppercase">Format</span>
@@ -95,7 +146,6 @@ export default function BookDetailModal({ book, onClose }: ModalProps) {
 						</div>
 					)}
 
-					{/* Bahasa */}
 					{book.languages && book.languages.length > 0 && (
 						<div>
 							<span className="text-xs font-bold text-gray-400 uppercase">Languages</span>
@@ -112,7 +162,6 @@ export default function BookDetailModal({ book, onClose }: ModalProps) {
 						</div>
 					)}
 
-					{/* Tempat Publikasi */}
 					{book.publishPlaces && book.publishPlaces.length > 0 && (
 						<div>
 							<span className="text-xs font-bold text-gray-400 uppercase">Publish Places</span>
@@ -177,7 +226,7 @@ export default function BookDetailModal({ book, onClose }: ModalProps) {
 						</div>
 					)}
 				</div>
-
+*/}
 				<Button onClick={onClose} className="w-full font-bold transition-all shadow-lg shadow-blue-200">
 					Close Details
 				</Button>
