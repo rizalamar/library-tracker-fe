@@ -4,7 +4,7 @@ import { fetchBooks } from "../features/books/bookSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import Pagination from "../components/ui/Pagination";
 import type { BookResponse } from "../types/book";
-import BookDetailModal from "../components/features/books/BookDetailModal";
+import BookDetailModal from "../components/features/books/book-detail/BookDetailModal";
 import { fetchMyBooks } from "../features/myBooks/myBookSlice";
 import Loader from "../components/common/Loader";
 import ErrorState from "../components/common/ErrorState";

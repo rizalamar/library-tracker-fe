@@ -50,13 +50,11 @@ export default function BookDetailModal({ book, onClose }: ModalProps) {
 					/>
 
 					{/* Publish Places */}
-					{book.publishPlaces && (
-						<BookDetailTags
-							label={"Publish Places"}
-							tags={book.publishPlaces}
-							bgColorClass="bg-orange-50 text-orange-700 border-orange-100"
-						/>
-					)}
+					<BookDetailTags
+						label={"Publish Places"}
+						tags={book.publishPlaces}
+						bgColorClass="bg-orange-50 text-orange-700 border-orange-100"
+					/>
 
 					{/* Subject People */}
 					<BookDetailTags

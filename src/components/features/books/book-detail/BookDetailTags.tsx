@@ -5,6 +5,8 @@ interface BookDetailTagsProps {
 }
 
 export default function BookDetailTags({ label, tags, bgColorClass = "bg-gray50 textgray-700" }: BookDetailTagsProps) {
+	if (!tags || tags.length === 0) return null;
+
 	return (
 		<div>
 			<span className="text-xs font-bold text-gray-400 uppercase">{label}</span>
