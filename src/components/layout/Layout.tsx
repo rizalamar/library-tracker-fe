@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import type { RootState } from "../../store/store";
 import Header from "./Header";
-import Sidebar from "./Sidebar";
+import Sidebar from "./sidebar/Sidebar";
 import { useAppSelector } from "../../hooks/redux";
 
 export default function Layout() {
