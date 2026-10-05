@@ -36,3 +36,42 @@ export interface BookRequest {
 	publishedDate: string;
 	imageUrl: string | null;
 }
+
+export interface ReadableBook {
+	editionKey: string;
+	isbn: string;
+	title: string;
+	authors: string[];
+	imageUrl?: string;
+	readOnline: string;
+	readerUrl: string;
+}
+
+export interface ReadableBookSearchResponse {
+	query: string;
+	page: number;
+	limit: number;
+	candidateTotal: number;
+	hasNextCandidatePage: boolean;
+	books: ReadableBook[];
+}
+
+export interface AuthorDetail {
+	name: string;
+	personalName?: string;
+	fullerName?: string;
+	birthDate?: string;
+	bio?: string;
+	photos: string[];
+	links: {
+		url: string;
+		title: string;
+	}[];
+	alternateName: string[];
+	topWorks: {
+		key: string;
+		title: string;
+		firstPublishYear: number;
+		coverUrl: string;
+	}[];
+}
