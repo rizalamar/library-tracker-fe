@@ -3,6 +3,7 @@ import authReducer from "../features/auth/authSlice";
 import booksReducer from "../features/books/bookSlice";
 import myBooksReducer from "../features/myBooks/myBookSlice";
 import genreReducer from "../features/books/genreSlice";
+import externalBooksReducer from "../features/externalBooks/externalBookSlice";
 
 export const store = configureStore({
 	reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
 		books: booksReducer,
 		myBooks: myBooksReducer,
 		genres: genreReducer,
+		externalBooks: externalBooksReducer,
 	},
 });
 
