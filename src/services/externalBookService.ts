@@ -3,7 +3,7 @@ import type { AuthorDetail, ReadableBookSearchResponse } from "../types/book";
 
 export const externalBookService = {
 	searchBooks: async (query: string, page: number = 1, limit: number = 20) => {
-		const response = await axiosInstance.get(`/api/v1/external-book/service`, {
+		const response = await axiosInstance.get(`/api/v1/external-books/search`, {
 			params: {
 				q: query,
 				page,
@@ -13,7 +13,7 @@ export const externalBookService = {
 		return response.data.data as ReadableBookSearchResponse;
 	},
 	getPopularAuthors: async (limit: number = 20) => {
-		const response = await axiosInstance.get(`/api/v1/external-book/authors/popular`, {
+		const response = await axiosInstance.get(`/api/v1/external-books/authors/popular`, {
 			params: { limit },
 		});
 		return response.data.data as AuthorDetail[];

@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { NavLink, useSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { useEffect } from "react";
 import { fetchGenres } from "../../../features/books/genreSlice";
@@ -23,8 +23,6 @@ export default function Sidebar({ isAdmin }: SidebarProps) {
 		dispatch(fetchPopularAuthors(5));
 	}, [dispatch]);
 
-	console.log("🚀 ~ Sidebar ~ genres:", genres);
-
 	return (
 		<aside className="w-64 bg-white border-r border-gray-100 p-8 flex flex-col h-screen sticky top-0 overflow-y-auto">
 			<SidebarHeader />
@@ -41,9 +39,16 @@ export default function Sidebar({ isAdmin }: SidebarProps) {
 
 					<div className="flex flex-col gap-2">
 						{popularAuthors.map((author) => (
-							<p key={author.name} className="text-sm text-gray-600 truncate">
+							<NavLink
+								to={`/authors/${encodeURIComponent(author.name)}`}
+								className={({ isActive }) =>
+									`text-sm block truncate ${
+										isActive ? "text-blue-600 font-bold" : "text-gray-600 hover:text-blue-500"
+									}`
+								}
+							>
 								{author.name}
-							</p>
+							</NavLink>
 						))}
 					</div>
 				</div>
