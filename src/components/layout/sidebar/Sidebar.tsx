@@ -5,6 +5,7 @@ import { fetchGenres } from "../../../features/books/genreSlice";
 import SidebarHeader from "./SidebarHeader";
 import SidebarMainNav from "./SidebarMainNav";
 import SidebarGenreList from "./SidebarGenreList";
+import { fetchPopularAuthors } from "../../../features/externalBooks/externalBookSlice";
 
 interface SidebarProps {
 	isAdmin: boolean;
@@ -13,11 +14,13 @@ interface SidebarProps {
 export default function Sidebar({ isAdmin }: SidebarProps) {
 	const dispatch = useAppDispatch();
 	const { items: genres } = useAppSelector((state) => state.genres);
+	const { popularAuthors } = useAppSelector((state) => state.externalBooks);
 	const [searchParams] = useSearchParams();
 	const activeGenre = searchParams.get("genre");
 
 	useEffect(() => {
 		dispatch(fetchGenres());
+		dispatch(fetchPopularAuthors(5));
 	}, [dispatch]);
 
 	console.log("🚀 ~ Sidebar ~ genres:", genres);
@@ -36,7 +39,13 @@ export default function Sidebar({ isAdmin }: SidebarProps) {
 				<div className="mt-10">
 					<h2 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Popular Authors</h2>
 
-					<p className="text-sm text-gray-500">Coming soon...</p>
+					<div className="flex flex-col gap-2">
+						{popularAuthors.map((author) => (
+							<p key={author.name} className="text-sm text-gray-600 truncate">
+								{author.name}
+							</p>
+						))}
+					</div>
 				</div>
 			</nav>
 		</aside>
