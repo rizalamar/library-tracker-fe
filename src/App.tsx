@@ -12,6 +12,7 @@ import AdminPanel from "./pages/AdminPanel";
 import { useAppDispatch, useAppSelector } from "./hooks/redux";
 import { getMyProfile } from "./features/auth/authSlice";
 import { useEffect } from "react";
+import AuthorDetail from "./pages/AuthorDetail";
 
 function App() {
 	const dispatch = useAppDispatch();
@@ -36,6 +37,7 @@ function App() {
 						<Route path="/" element={<Navigate to="/dashboard" replace />} />
 						<Route path="/dashboard" element={<Dashboard />} />
 						<Route path="/my-shelf" element={<MyShelf />} />
+						<Route path="/authors/:name" element={<AuthorDetail />} />
 
 						<Route element={<AdminRoute />}>
 							<Route path="/admin" element={<AdminPanel />} />

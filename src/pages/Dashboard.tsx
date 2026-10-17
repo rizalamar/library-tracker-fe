@@ -24,11 +24,13 @@ export default function Dashboard() {
 	const [page, setPage] = useState(0);
 	const [selectedBook, setSelectedBook] = useState<BookResponse | null>(null);
 	const [searchParams] = useSearchParams();
+	const searchQuery = searchParams.get("search") || "";
 
 	const itemsPerPage = 12;
 	const paginatedItems = books.slice(page * itemsPerPage, (page + 1) * itemsPerPage);
 	const hasMore = (page + 1) * itemsPerPage < books.length;
 	const genre = searchParams.get("genre");
+	const filteredBooks = books.filter((book) => book.title.toLowerCase().includes(searchQuery.toLowerCase()));
 
 	useEffect(() => {
 		dispatch(fetchBooks({ page, genre }));

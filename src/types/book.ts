@@ -37,25 +37,6 @@ export interface BookRequest {
 	imageUrl: string | null;
 }
 
-export interface ReadableBook {
-	editionKey: string;
-	isbn: string;
-	title: string;
-	authors: string[];
-	imageUrl?: string;
-	readOnline: string;
-	readerUrl: string;
-}
-
-export interface ReadableBookSearchResponse {
-	query: string;
-	page: number;
-	limit: number;
-	candidateTotal: number;
-	hasNextCandidatePage: boolean;
-	books: ReadableBook[];
-}
-
 export interface AuthorDetail {
 	name: string;
 	personalName?: string;

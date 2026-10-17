@@ -1,17 +1,14 @@
 import { Bell, Search, User } from "lucide-react";
 import { useState } from "react";
-import { useAppDispatch } from "../../hooks/redux";
-import { searchExternalBooks } from "../../features/externalBooks/externalBookSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
 	const [query, setQuery] = useState("");
-	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 
 	const handleSearch = (e: React.SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if (query.trim()) {
-			dispatch(searchExternalBooks({ query }));
-		}
+		navigate(`/dashboard?search=${encodeURIComponent(query)}`);
 	};
 
 	return (
