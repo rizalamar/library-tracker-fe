@@ -31,9 +31,18 @@ const externalBooksSlice = createSlice({
 	initialState,
 	reducers: {},
 	extraReducers: (builder) => {
-		builder.addCase(fetchPopularAuthors.fulfilled, (state, action: PayloadAction<AuthorDetail[]>) => {
-			state.popularAuthors = action.payload;
-		});
+		builder
+			.addCase(fetchPopularAuthors.fulfilled, (state, action: PayloadAction<AuthorDetail[]>) => {
+				state.popularAuthors = action.payload;
+			})
+			.addCase(fetchPopularAuthors.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload as string;
+			})
+			.addCase(fetchPopularAuthors.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			});
 	},
 });
 
