@@ -13,7 +13,7 @@ interface SidebarProps {
 
 export default function Sidebar({ isAdmin }: SidebarProps) {
 	const dispatch = useAppDispatch();
-	const { items: genres } = useAppSelector((state) => state.genres);
+	const { items: genres, loading: genresLoading } = useAppSelector((state) => state.genres);
 	const { popularAuthors } = useAppSelector((state) => state.externalBooks);
 	const [searchParams] = useSearchParams();
 	const activeGenre = searchParams.get("genre");
@@ -32,7 +32,7 @@ export default function Sidebar({ isAdmin }: SidebarProps) {
 			<nav className="flex flex-col gap-8">
 				<SidebarMainNav isAdmin={isAdmin} />
 
-				<SidebarGenreList genres={genres} activeGenre={activeGenre} />
+				<SidebarGenreList genres={genres} activeGenre={activeGenre} loading={genresLoading} />
 
 				<div className="mt-10">
 					<h2 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Popular Authors</h2>
