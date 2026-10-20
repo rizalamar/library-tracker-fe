@@ -23,7 +23,6 @@ export default function Sidebar({ isAdmin }: SidebarProps) {
 		dispatch(fetchGenres());
 		dispatch(fetchPopularAuthors(5));
 	}, [dispatch]);
-	console.log("🚀 ~ Sidebar ~ popularAuthors:", popularAuthors);
 
 	return (
 		<aside className="w-64 bg-white border-r border-gray-100 p-8 flex flex-col h-screen sticky top-0 overflow-y-auto">

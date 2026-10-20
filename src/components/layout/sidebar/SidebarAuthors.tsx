@@ -16,8 +16,9 @@ export default function SidebarAuthors({ authors, loading }: SidebarAuthorsProps
 				<Loader message={"Loading authors..."} />
 			) : (
 				<div className="flex flex-col gap-2">
-					{authors.map((author) => (
+					{authors.map((author, index) => (
 						<NavLink
+							key={index}
 							to={`/authors/${encodeURIComponent(author.name)}`}
 							className={({ isActive }) =>
 								`text-sm block truncate ${
