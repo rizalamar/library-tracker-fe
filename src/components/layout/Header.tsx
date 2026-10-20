@@ -1,4 +1,4 @@
-import { LogOut, Search, User } from "lucide-react";
+import { ChevronDown, LogOut, Search, User } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
@@ -39,7 +39,7 @@ export default function Header() {
 			<div className="flex items-center gap-6">
 				<div className="relative">
 					<div
-						className="flex items-center gap-2 cursor-pointer"
+						className="flex items-center gap-2 cursor-pointer hover:bg-gray-200 px-2 py-1 rounded-lg transition-colors"
 						onClick={() => setShowDropDown(!showDropDown)}
 					>
 						<div className="w-8 h-8 rounded-full bg-gray-200 overflow-hidden">
@@ -47,6 +47,9 @@ export default function Header() {
 						</div>
 
 						<span className="text-sm font-medium text-gray-700">{user?.username}</span>
+						<ChevronDown
+							className={`w-4 h-4 text-gray-400 transition-transform ${showDropDown ? "rotate-180" : ""}`}
+						/>
 					</div>
 
 					{/* Menu */}
