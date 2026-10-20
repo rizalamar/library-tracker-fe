@@ -54,11 +54,10 @@ export default function Header() {
 
 					{/* Menu */}
 					{showDropDown && (
-						<div className="absolute right-0 top-12 w-30 bg-white border border-gray-100 rounded-lg py-2 z-50">
+						<div className="absolute right-0 top-12 w-30 bg-white border border-gray-100 rounded-lg shadow-lg z-50">
 							<button
 								onClick={handleLogout}
-								className="flex items-center gap-2
-							 w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+								className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors font-medium cursor-pointer"
 							>
 								<LogOut className="w-4 h-4" /> Sign Out
 							</button>

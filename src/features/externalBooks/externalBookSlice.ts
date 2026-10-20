@@ -34,6 +34,7 @@ const externalBooksSlice = createSlice({
 		builder
 			.addCase(fetchPopularAuthors.fulfilled, (state, action: PayloadAction<AuthorDetail[]>) => {
 				state.popularAuthors = action.payload;
+				state.loading = false;
 			})
 			.addCase(fetchPopularAuthors.rejected, (state, action) => {
 				state.loading = false;
