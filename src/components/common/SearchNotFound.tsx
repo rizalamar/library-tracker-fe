@@ -1,6 +1,6 @@
 import { SearchX } from "lucide-react";
 
-export default function SeachNotFound() {
+export default function SearchNotFound() {
 	return (
 		<div className="flex flex-col items-center justify-center my-auto text-center">
 			<div className="p-4 m-4 rounded-full bg-red-50">

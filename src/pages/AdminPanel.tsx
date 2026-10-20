@@ -19,7 +19,7 @@ export default function AdminPanel() {
 	const hasMore = (page + 1) * itemsPerPage < items.length;
 
 	useEffect(() => {
-		dispatch(fetchBooks(page));
+		dispatch(fetchBooks({ page }));
 	}, [dispatch, page]);
 
 	const handleDelete = async (id: string) => {
