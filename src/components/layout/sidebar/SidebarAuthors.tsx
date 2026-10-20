@@ -15,14 +15,16 @@ export default function SidebarAuthors({ authors, loading }: SidebarAuthorsProps
 			{loading ? (
 				<Loader message={"Loading authors..."} />
 			) : (
-				<div className="flex flex-col gap-2">
+				<div className="flex flex-col gap-1">
 					{authors.map((author, index) => (
 						<NavLink
 							key={index}
 							to={`/authors/${encodeURIComponent(author.name)}`}
 							className={({ isActive }) =>
-								`text-sm block truncate ${
-									isActive ? "text-blue-600 font-bold" : "text-gray-600 hover:text-blue-500"
+								`text-sm font-medium block truncate px-4 py-2 ${
+									isActive
+										? "text-blue-700 bg-blue-50 border-l-2 border-blue-600"
+										: "text-gray-500 hover:text-gray-900 hover:bg-gray-50 border-l-2 border-transparent"
 								}`
 							}
 						>

@@ -16,7 +16,7 @@ export default function SidebarGenreList({ genres, activeGenre, loading }: Sideb
 			{loading ? (
 				<Loader message={"Loading genres..."} />
 			) : (
-				<div className="flex flex-col gap-3">
+				<div className="flex flex-col gap-1">
 					{genres.map((genre) => {
 						const isActive = activeGenre === genre.name;
 
@@ -32,7 +32,7 @@ export default function SidebarGenreList({ genres, activeGenre, loading }: Sideb
 							>
 								<span>{genre.name}</span>
 								<span
-									className={`text-[10px] px-1.5 py-0.5 rounded-full ${
+									className={`text-[10px] p-1 rounded-full ${
 										isActive ? "bg-white text-blue-600" : "bg-gray-100 text-gray-500"
 									}`}
 								>
