@@ -11,6 +11,7 @@ import ErrorState from "../components/common/ErrorState";
 import { useSearchParams } from "react-router-dom";
 import BookStats from "../components/features/books/stats/BookStats";
 import { useDebounce } from "../hooks/useDebounce";
+import SearchNotFound from "../components/common/SearchNotFound";
 
 export default function Dashboard() {
 	const dispatch = useAppDispatch();
@@ -55,7 +56,7 @@ export default function Dashboard() {
 					<Loader message={"Fetching your library..."} />
 				) : error ? (
 					<ErrorState message={error || ""} onRetry={() => dispatch(fetchBooks({ page }))} />
-				) : (
+				) : filteredBooks.length > 0 ? (
 					<div className="grid grid-cols-2 gap-6 md:grid-cols-4 lg:grid-cols-6">
 						{paginatedItems.map((book) => {
 							if (!book || !book.id || !book.title) {
@@ -65,6 +66,8 @@ export default function Dashboard() {
 							return <BookCard key={book.id} bookDetails={book} onView={() => setSelectedBook(book)} />;
 						})}
 					</div>
+				) : (
+					<SearchNotFound />
 				)}
 			</div>
 

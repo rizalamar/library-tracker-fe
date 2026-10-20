@@ -12,7 +12,7 @@ export default function ErrorState({ message, onRetry }: ErrorStateProps) {
 			<div className="p-4 m-4 rounded-full bg-red-50">
 				<AlertCircle className="w-8 h-8 text-red-600" />
 			</div>
-			<h3 className="mb-2 text-lg font-bold text-gray-900">Something went wrong</h3>
+			<h3 className="mb-2 text-xl font-bold text-gray-900">Something went wrong</h3>
 			<p className="max-w-sm mb-6 text-sm text-gray-500">{message}</p>
 			{onRetry && (
 				<Button
