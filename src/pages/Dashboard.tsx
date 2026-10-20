@@ -10,6 +10,7 @@ import Loader from "../components/common/Loader";
 import ErrorState from "../components/common/ErrorState";
 import { useSearchParams } from "react-router-dom";
 import BookStats from "../components/features/books/stats/BookStats";
+import { useDebounce } from "../hooks/useDebounce";
 
 export default function Dashboard() {
 	const dispatch = useAppDispatch();
@@ -25,9 +26,10 @@ export default function Dashboard() {
 	const [selectedBook, setSelectedBook] = useState<BookResponse | null>(null);
 	const [searchParams] = useSearchParams();
 	const searchQuery = searchParams.get("search") || "";
+	const debounceQuery = useDebounce(searchQuery, 300);
 
 	const itemsPerPage = 12;
-	const filteredBooks = books.filter((book) => book.title.toLowerCase().includes(searchQuery.toLowerCase()));
+	const filteredBooks = books.filter((book) => book.title.toLowerCase().includes(debounceQuery.toLowerCase()));
 	const paginatedItems = filteredBooks.slice(page * itemsPerPage, (page + 1) * itemsPerPage);
 	const hasMore = (page + 1) * itemsPerPage < books.length;
 	const genre = searchParams.get("genre");

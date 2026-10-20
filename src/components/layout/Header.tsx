@@ -5,15 +5,18 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { logout } from "../../features/auth/authSlice";
 
 export default function Header() {
-	const [query, setQuery] = useState("");
 	const [showDropDown, setShowDropDown] = useState(false);
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const { user } = useAppSelector((state) => state.auth);
 
-	const handleSearch = (e: React.SyntheticEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		navigate(`/dashboard?search=${encodeURIComponent(query)}`);
+	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value;
+		if (value) {
+			navigate(`/dashboard?search=${encodeURIComponent(value)}`);
+		} else {
+			navigate("/dashboard");
+		}
 	};
 
 	const handleLogout = () => {
@@ -24,16 +27,15 @@ export default function Header() {
 	return (
 		<header className="flex h-16 items-center justify-between px-8 bg-white border-b border-gray-100">
 			{/* Search Bar */}
-			<form className="relative w-96" onSubmit={handleSearch}>
+			<div className="relative w-96">
 				<Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
 				<input
 					type="text"
 					placeholder="Search bookk by title..."
 					className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-full text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
-					value={query}
-					onChange={(e) => setQuery(e.target.value)}
+					onChange={handleSearch}
 				/>
-			</form>
+			</div>
 
 			{/* Right side */}
 			<div className="flex items-center gap-6">
