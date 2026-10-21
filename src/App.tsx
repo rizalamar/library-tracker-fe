@@ -32,13 +32,15 @@ function App() {
 				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Register />} />
 
+				<Route element={<Layout />}>
+					<Route path="/" element={<Navigate to={"/dashboard"} replace />} />
+					<Route path="/dashboard" element={<Dashboard />} />
+					<Route path="/authors/:name" element={<AuthorDetail />} />
+				</Route>
+
 				<Route element={<ProtectedRoute />}>
 					<Route element={<Layout />}>
-						<Route path="/" element={<Navigate to="/dashboard" replace />} />
-						<Route path="/dashboard" element={<Dashboard />} />
 						<Route path="/my-shelf" element={<MyShelf />} />
-						<Route path="/authors/:name" element={<AuthorDetail />} />
-
 						<Route element={<AdminRoute />}>
 							<Route path="/admin" element={<AdminPanel />} />
 						</Route>
