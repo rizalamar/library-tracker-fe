@@ -37,6 +37,7 @@ export default function Dashboard() {
 
 	useEffect(() => {
 		dispatch(fetchBooks({ page, genre }));
+
 		dispatch(fetchMyBooks());
 	}, [dispatch, page, genre]);
 
