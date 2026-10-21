@@ -5,6 +5,7 @@ import { addBookToMyShelf } from "../../../features/myBooks/myBookSlice";
 import { getPrimaryAuthorName } from "../../../utils/helper";
 import { BookmarkCheck, BookmarkPlus } from "lucide-react";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 interface BookCardProps {
 	bookDetails: BookResponse;
 	onView: () => void;
@@ -12,12 +13,26 @@ interface BookCardProps {
 
 export function BookCard({ bookDetails, onView }: BookCardProps) {
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+	const { token } = useAppSelector((state) => state.auth);
 	const { items: myBooks } = useAppSelector((state) => state.myBooks);
 	const isAlreadyInShelf = myBooks.some((item) => item.book.id === bookDetails.id);
 
 	const handleAddToShelf = async (e: MouseEvent) => {
+		e.stopPropagation();
+
+		if (!token) {
+			toast("Sign in required", {
+				description: "You need to be logged in to save books to your shelf.",
+				action: {
+					label: "Sign in",
+					onClick: () => navigate("/login"),
+				},
+			});
+			return;
+		}
+
 		try {
-			e.stopPropagation();
 			await dispatch(addBookToMyShelf(bookDetails.id || "")).unwrap();
 			toast.success(`${bookDetails.title} has been added to your shelf!`);
 			// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
