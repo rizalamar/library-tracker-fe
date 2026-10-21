@@ -1,6 +1,6 @@
 import { ChevronDown, LogOut, Search, User } from "lucide-react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { logout } from "../../features/auth/authSlice";
 
@@ -39,33 +39,49 @@ export default function Header() {
 
 			{/* Right side */}
 			<div className="flex items-center gap-6">
-				<div className="relative">
-					<div
-						className="flex items-center gap-2 cursor-pointer hover:bg-gray-200 px-2 py-1 rounded-lg transition-colors"
-						onClick={() => setShowDropDown(!showDropDown)}
-					>
-						<div className="w-8 h-8 rounded-full bg-gray-200 overflow-hidden">
-							<User className="w-full h-full p-1.5 text-gray-500" />
+				{user ? (
+					<div className="relative">
+						<div
+							className="flex items-center gap-2 cursor-pointer hover:bg-gray-200 px-2 py-1 rounded-lg transition-colors"
+							onClick={() => setShowDropDown(!showDropDown)}
+						>
+							<div className="w-8 h-8 rounded-full bg-gray-200 overflow-hidden">
+								<User className="w-full h-full p-1.5 text-gray-500" />
+							</div>
+
+							<span className="text-sm font-medium text-gray-700">{user?.username}</span>
+							<ChevronDown
+								className={`w-4 h-4 text-gray-400 transition-transform ${
+									showDropDown ? "rotate-180" : ""
+								}`}
+							/>
 						</div>
 
-						<span className="text-sm font-medium text-gray-700">{user?.username}</span>
-						<ChevronDown
-							className={`w-4 h-4 text-gray-400 transition-transform ${showDropDown ? "rotate-180" : ""}`}
-						/>
+						{/* Menu */}
+						{showDropDown && (
+							<div className="absolute right-0 top-12 w-30 bg-white border border-gray-100 rounded-lg shadow-lg z-50">
+								<button
+									onClick={handleLogout}
+									className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors font-medium cursor-pointer"
+								>
+									<LogOut className="w-4 h-4" /> Sign Out
+								</button>
+							</div>
+						)}
 					</div>
-
-					{/* Menu */}
-					{showDropDown && (
-						<div className="absolute right-0 top-12 w-30 bg-white border border-gray-100 rounded-lg shadow-lg z-50">
-							<button
-								onClick={handleLogout}
-								className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors font-medium cursor-pointer"
-							>
-								<LogOut className="w-4 h-4" /> Sign Out
-							</button>
-						</div>
-					)}
-				</div>
+				) : (
+					<div className="flex items-center gap-4">
+						<Link to={"/login"} className="text-sm font-medium text-gray-600 hover:text-blue-600">
+							Sign In
+						</Link>
+						<Link
+							to={"/register"}
+							className="text-sm font-bold bg-blue-600 text-white px-4 py2 rounded-lg hover:bg-blue-700"
+						>
+							Sign Up
+						</Link>
+					</div>
+				)}
 			</div>
 		</header>
 	);
