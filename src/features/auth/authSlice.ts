@@ -44,7 +44,8 @@ export const loginUser = createAsyncThunk(
 			return { token, user: userPayload };
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
-			const errorMessage = err.response?.data?.message || err.message || "Login failed";
+			const errorMessage = err.response?.data?.data || err.message || "Login failed";
+
 			return rejectWithValue(errorMessage);
 		}
 	}

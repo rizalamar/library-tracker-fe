@@ -34,35 +34,19 @@ export default function Login() {
 		}
 	}, [token, user, navigate]);
 
-	// clean the components when unmount
-	useEffect(() => {
-		return () => {
-			dispatch(clearError());
-		};
-	}, [dispatch]);
-
 	const onSubmit = async (data: LoginFormValues) => {
-		const result = await dispatch(
+		dispatch(clearError());
+		await dispatch(
 			loginUser({
 				username: data.username,
 				password: data.password,
 			})
 		);
-
-		if (loginUser.fulfilled.match(result)) {
-			console.log("Login successfull!");
-		} else if (loginUser.rejected.match(result)) {
-			console.error("Login failed: ", result.payload);
-		}
 	};
 
 	return (
 		<div className="flex items-center justify-center min-h-screen p-4 bg-gray-100">
 			<div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
-				{/* Logo */}
-				{/* <div className="flex justify-center mb-6">
-					<img src={Logo} alt="App Logo" className="h-12" />
-				</div> */}
 				<h2 className="mb-6 text-2xl font-bold text-center text-gray-900">Login to your account</h2>
 
 				<form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -114,7 +98,7 @@ export default function Login() {
 						)}
 					</div>
 
-					{error && <div className="text-sm text-center text-red-500">{error}</div>}
+					{error && <p className="text-sm text-center text-red-500">{error}</p>}
 
 					<Button type="submit" variant="primary" isLoading={loading} className="w-full">
 						Sign In
