@@ -48,13 +48,7 @@ export default function Register() {
 	const onSubmit = async (data: RegisterFormValue) => {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { confirmPassword, ...userData } = data;
-		const result = await dispatch(registerUser(userData));
-
-		if (registerUser.fulfilled.match(result)) {
-			console.log("Registration successfull!");
-		} else if (registerUser.rejected.match(result)) {
-			console.error("Registration failed", result.payload);
-		}
+		await dispatch(registerUser(userData));
 	};
 
 	return (

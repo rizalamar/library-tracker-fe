@@ -44,8 +44,14 @@ export const loginUser = createAsyncThunk(
 			return { token, user: userPayload };
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
-			const errorMessage = err.response?.data?.data || err.message || "Login failed";
+			const errorResponse = err.response?.data?.data;
+			let errorMessage = "Registration Failed";
 
+			if (typeof errorResponse === "object") {
+				errorMessage = Object.values(errorResponse)[0] as string;
+			} else if (typeof errorResponse === "string") {
+				errorMessage = errorResponse;
+			}
 			return rejectWithValue(errorMessage);
 		}
 	}
@@ -75,7 +81,14 @@ export const registerUser = createAsyncThunk(
 			return { token, user: userPayload }; // Mengembalikan payload yang sama dengan login
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
-			const errorMessage = err.response?.data?.message || err.message || "Registration failed";
+			const errorResponse = err.response?.data?.data;
+			let errorMessage = "Registration Failed";
+
+			if (typeof errorResponse === "object") {
+				errorMessage = Object.values(errorResponse)[0] as string;
+			} else if (typeof errorResponse === "string") {
+				errorMessage = errorResponse;
+			}
 			return rejectWithValue(errorMessage);
 		}
 	}
