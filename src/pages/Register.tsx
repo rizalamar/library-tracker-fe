@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { clearError, registerUser } from "../features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import Button from "../components/ui/Button";
+import { Eye, EyeOff } from "lucide-react";
 
 interface RegisterFormValue {
 	username: string;
@@ -14,6 +15,7 @@ interface RegisterFormValue {
 }
 
 export default function Register() {
+	const [showPassword, setShowPassword] = useState(false);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
@@ -131,12 +133,12 @@ export default function Register() {
 					</div>
 
 					{/* Password */}
-					<div className="">
+					<div className="relative">
 						<label htmlFor="password" className="block text-sm font-medium text-gray-700">
 							Password
 						</label>
 						<input
-							type="password"
+							type={showPassword ? "text" : "password"}
 							id="password"
 							{...register("password", {
 								required: "Password is required",
@@ -150,18 +152,24 @@ export default function Register() {
 							} `}
 							placeholder="Enter your password"
 						/>
+						<span
+							className="absolute right-3 top-9 text-gray-400 hover:text-gray-600 cursor-pointer z-10"
+							onClick={() => setShowPassword(!showPassword)}
+						>
+							{showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+						</span>
 						{errors.password && (
 							<p className="mt-1 text-xs text-red-500">{String(errors.password.message)}</p>
 						)}
 					</div>
 
 					{/* Confirm Password */}
-					<div className="">
+					<div className="relative">
 						<label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
 							Confirm Password
 						</label>
 						<input
-							type="password"
+							type={showPassword ? "text" : "password"}
 							id="confirmPassword"
 							{...register("confirmPassword", {
 								required: "Confirm Password is required",
@@ -174,6 +182,12 @@ export default function Register() {
 							} `}
 							placeholder="Confirm your password"
 						/>
+						<span
+							className="absolute right-3 top-9 text-gray-400 hover:text-gray-600 cursor-pointer z-10"
+							onClick={() => setShowPassword(!showPassword)}
+						>
+							{showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+						</span>
 						{errors.confirmPassword && (
 							<p className="mt-1 text-xs text-red-500">{String(errors.confirmPassword.message)}</p>
 						)}
