@@ -93,15 +93,45 @@ const bookSlice = createSlice({
 				state.loading = false;
 				state.error = (action.payload as string) || "Failed to load books";
 			})
+
+			.addCase(addBook.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
 			.addCase(addBook.fulfilled, (state, action) => {
+				state.loading = false;
 				state.items.push(action.payload);
 			})
+			.addCase(addBook.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload as string;
+			})
+
+			.addCase(updateBook.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
 			.addCase(updateBook.fulfilled, (state, action) => {
+				state.loading = false;
 				const index = state.items.findIndex((b) => b.id === action.payload.id);
 				if (index !== -1) state.items[index] = action.payload;
 			})
+			.addCase(updateBook.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload as string;
+			})
+
+			.addCase(deleteBook.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
 			.addCase(deleteBook.fulfilled, (state, action) => {
+				state.loading = false;
 				state.items = state.items.filter((b) => b.id !== action.payload);
+			})
+			.addCase(deleteBook.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload as string;
 			});
 	},
 });
