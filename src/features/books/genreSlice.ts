@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { axiosInstance } from "../../config/axiosInstance";
 import type { Genre } from "../../types/genre";
+import { genreService } from "../../services/genreService";
 
 interface GenreState {
 	items: Genre[];
@@ -17,10 +17,10 @@ const initialState: GenreState = {
 
 export const fetchGenres = createAsyncThunk("genres/fetchAll", async (_, { rejectWithValue }) => {
 	try {
-		const response = await axiosInstance.get("/api/v1/books/genres");
+		const response = await genreService.getAll();
 		return response.data.data as Genre[];
 	} catch (error: any) {
-		const errorMessage = error.response?.data?.message || error.message;
+		const errorMessage = error.response?.data?.data || error.message;
 		return rejectWithValue(errorMessage);
 	}
 });

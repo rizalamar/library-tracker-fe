@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, type PayloadAction } from "@reduxjs/toolkit";
-import { axiosInstance } from "../../config/axiosInstance"; // Pastikan path ini benar
-import type { User, AuthState, AuthSuccessPayload } from "../../types/auth"; // Import types
+import type { User, AuthState, AuthSuccessPayload } from "../../types/auth";
+import { authService } from "../../services/authService";
 
 const initialToken = localStorage.getItem("token");
 const initialStoredUser = localStorage.getItem("user");
@@ -28,7 +28,7 @@ export const loginUser = createAsyncThunk(
 	"auth/login",
 	async (credentials: { username: string; password: string }, { rejectWithValue }) => {
 		try {
-			const response = await axiosInstance.post("/api/v1/auth/login", credentials);
+			const response = await authService.login(credentials);
 			const { token, username, email, fullName, role } = response.data.data;
 			const userPayload: User = {
 				id: username,
@@ -64,7 +64,7 @@ export const registerUser = createAsyncThunk(
 		{ rejectWithValue }
 	) => {
 		try {
-			const response = await axiosInstance.post("/api/v1/auth/register", credentials);
+			const response = await authService.register(credentials);
 			const { token, username, fullName, email, role } = response.data.data;
 
 			const userPayload: User = {
@@ -96,7 +96,7 @@ export const registerUser = createAsyncThunk(
 
 export const getMyProfile = createAsyncThunk("auth/getMe", async (_, { rejectWithValue }) => {
 	try {
-		const response = await axiosInstance.get("/api/v1/users/me");
+		const response = await authService.getMe();
 		return response.data.data;
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	} catch (error: any) {
@@ -108,7 +108,7 @@ export const updateProfile = createAsyncThunk(
 	"auth/updateProfile",
 	async (data: { fullName: string; email: string }, { rejectWithValue }) => {
 		try {
-			const response = await axiosInstance.put("/api/v1/users/me", data);
+			const response = await authService.updateProfile(data);
 			return response.data.data as User;
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (error: any) {
@@ -119,7 +119,7 @@ export const updateProfile = createAsyncThunk(
 
 export const deleteAccount = createAsyncThunk("auth/deleteAccount", async (_, { rejectWithValue }) => {
 	try {
-		await axiosInstance.delete("/api/v1/users/me");
+		await authService.deleteAccount();
 		return null;
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	} catch (error: any) {
@@ -172,24 +172,48 @@ const authSlice = createSlice({
 				state.loading = false;
 				state.error = action.payload as string;
 			})
+
+			.addCase(getMyProfile.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
 			.addCase(getMyProfile.fulfilled, (state, action) => {
 				state.user = action.payload;
 				localStorage.setItem("user", JSON.stringify(action.payload));
+			})
+
+			.addCase(getMyProfile.rejected, (state) => {
+				state.user = null;
+				localStorage.removeItem("token");
+				localStorage.removeItem("user");
+			})
+
+			.addCase(updateProfile.pending, (state) => {
+				state.loading = true;
+				state.error = null;
 			})
 			.addCase(updateProfile.fulfilled, (state, action) => {
 				state.user = action.payload;
 				localStorage.setItem("user", JSON.stringify(state.user));
 			})
-			.addCase(getMyProfile.rejected, (state) => {
-				state.user = null;
-				localStorage.removeItem("token");
-				localStorage.removeItem("user");
+			.addCase(updateProfile.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload as string;
+			})
+
+			.addCase(deleteAccount.pending, (state) => {
+				state.loading = true;
+				state.error = null;
 			})
 			.addCase(deleteAccount.fulfilled, (state) => {
 				state.user = null;
 				state.token = null;
 				localStorage.removeItem("token");
 				localStorage.removeItem("user");
+			})
+			.addCase(deleteAccount.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload as string;
 			});
 	},
 });
